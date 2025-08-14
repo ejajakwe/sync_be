@@ -1,10 +1,8 @@
 <?php
 
 namespace App\Providers;
-
+use Midtrans\Config;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Storage;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,15 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Paksa semua URL jadi HTTPS jika di production
-        if (config('app.env') === 'production') {
-            URL::forceScheme('https');
-        }
-
-        // Override Storage::url() agar selalu pakai APP_URL
-        Storage::macro('url', function ($path) {
-            $appUrl = rtrim(config('app.url'), '/'); // Ambil APP_URL dari .env
-            return $appUrl . '/storage/' . ltrim($path, '/');
-        });
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = config('midtrans.sanitized');
+        Config::$is3ds = config('midtrans.3ds');
     }
 }
