@@ -6,7 +6,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://syncbe-production.up.railway.app'],
 
     'allowed_headers' => ['*'],
 
